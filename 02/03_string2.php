@@ -7,4 +7,4 @@ $msg = <<<END
 うずうずしています｡
 END;
 
-echo $msg.PHP_EOL;
+echo $msg . PHP_EOL;
