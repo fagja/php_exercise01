@@ -6,7 +6,7 @@ $num = trim(fgets(STDIN));
 // ここに処理を記述
 if ($num < 2) {
     $msg = '素数ではありません';
-}elseif ($num == 2) {
+} elseif ($num == 2) {
     $msg = '素数です';
 } else {
     for ($i = 2; $i < $num; $i++) {
