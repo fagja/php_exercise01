@@ -4,21 +4,26 @@ echo '血液型を入力して下さい: ';
 $blood_type = trim(fgets(STDIN));
 
 // ここに処理を記述
-
-echo '$hourの値を入力して下さい: ';
-$hour = trim(fgets(STDIN));
-
 switch ($blood_type) {
-    case '6':
-        echo 'おはようございます' . PHP_EOL;
+    case 'A':
+        echo 'A型の方は几帳面だけど優しいらしいです！' . PHP_EOL;
         break;
-    case '12':
-        echo 'こんにちは' . PHP_EOL;
+    case 'B':
+        echo 'B型の方は好奇心旺盛らしいです！' . PHP_EOL;
         break;
-    case '18':
-        echo 'こんばんは' . PHP_EOL;
+    case 'AB':
+        echo 'AB型の方は先読み思考に優れた天才らしいです！' . PHP_EOL;
+        break;
+    case 'O':
+        echo 'O型の方はおおらからしいです！' . PHP_EOL;
         break;
     default:
-        echo 'どうも' . PHP_EOL;
+        echo '判定不能です！' . PHP_EOL;
         break;
 }
+
+// $blood_typeがAの場合、 A型の方は几帳面だけど優しいらしいです！ と出力
+// $blood_typeがBの場合、 B型の方は好奇心旺盛らしいです！ と出力
+// $blood_typeがABの場合、 AB型の方は先読み思考に優れた天才らしいです！ と出力
+// $blood_typeがOの場合、 O型の方はおおらからしいです！ と出力
+// $blood_typeが上記以外の場合、 判定不能です！ と出力
