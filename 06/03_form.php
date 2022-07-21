@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li><?= $err_msg ?></li>
                 </ul>
             <?php endif; ?>
+        </div>
+        <div>
             <label for="">年齢</label><br>
             <input type="text" name="age">
         </div>
