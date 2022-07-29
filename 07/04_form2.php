@@ -1,42 +1,42 @@
 <?php
 
-$name = '';
-$tel = '';
-$email = '';
-$item_key = '';
-$msg = '';
-$err_msgs = [];
+$labels = ["氏名", '電話番号', $ask2 = 'メールアドレス', '購入するもの'];
+$inputs = ['name', 'tel', 'email', 'purchase'];
 
-$ask1 = '氏名';
-$ask2 = '電話番号';
-$ask3 = 'メールアドレス';
-$ask4 = '購入するもの';
+for ($i = 0; $i <= 3; $i++) {
+    ${'answer' . $i} = '';
+    ${'brank'  . $i} = '';
+    ${'ask'    . $i} = $labels[$i];
+    ${'diff'   . $i} = strlen($ask2) - strlen(${'ask' . $i});
+}
 
+$brank2  = ' ';
 $base_err = 'を入力して下さい';
 
-$items = ['バッグ', '靴', '時計', 'ネックレス', 'ピアス'];
+$msgs     = [];
+$err_msgs = [];
+
+$items    = ['バッグ', '靴', '時計', 'ネックレス', 'ピアス'];
 
 // コードを追記
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $tel = $_POST['tel'];
-    $email = $_POST['email'];
-    $item_key = $_POST['purchase'];
 
-    if (empty($name)) {
-        $err_msgs[] = $ask1 . $base_err;
-    }
-
-    if (empty($tel)) {
-        $err_msgs[] = $ask2 . $base_err;
-    }
-
-    if (empty($email)) {
-        $err_msgs[] = $ask3 . $base_err;
-    } else {
-        $msg = "{$ask1}:{$name}";
+for ($i = 0; $i <= 3; $i++) {
+    for ($k = 0; $k < ${'diff' . $i}; $k++) {
+        ${'brank' . $i} .= '&nbsp;';
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    for ($i = 0; $i <= 3; $i++) {
+        ${'answer' . $i} = $_POST[$inputs[$i]];
+        if (empty(${'answer' . $i})) {
+            $err_msgs[] = ${'ask' . $i} . $base_err;
+        } else {
+            $msgs[] = "{${'ask' .$i}}:{${'brank' .$i}}{${'answer' .$i}}";
+        }
+    }
+}
+
 // コードを追記
 
 ?>
@@ -70,21 +70,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- // コードを追記 -->
         <div class="input">
-            <label for="name">氏名</label><br>
-            <input type="text" name="name" value=<?= $name ?>><br>
-            <label for="tel">電話番号</label><br>
-            <input type="text" name="tel" value=<?= $tel ?>><br>
-            <label for="email">メールアドレス</label><br>
-            <input type="text" name="email" value=<?= $email ?>><br>
+            <?php for ($i = 0; $i <= 2; $i++) : ?>
+                <label for=""><?= $labels[$i] ?></label><br>
+                <input type="text" name=<?= $inputs[$i] ?> value=<?= ${'answer' . $i} ?>><br>
+            <?php endfor; ?>
+
         </div>
         <h3>購入するものを選択してください</h3>
         <div class="select">
             <select name="purchase" id="">
-                <option value="バッグ">バッグ</option>
-                <option value="靴">靴</option>
-                <option value="時計">時計</option>
-                <option value="ネックレス">ネックレス</option>
-                <option value="ピアス">ピアス</option>
+                <?php foreach ($items as $item) : ?>
+                    <option value=<?= $item ?>><?= $item ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <!-- // コードを追記 -->
@@ -95,9 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <!-- // コードを追記 -->
-    <?php if (!empty($msg)) : ?>
+    <?php if (empty($err_msgs) && $msgs) : ?>
         <h3>以下の内容が送信されました。</h3>
-        <?= $msg ?>
+        <?php foreach ($msgs as $msg) : ?>
+            <?= $msg ?><br>
+        <?php endforeach; ?>
     <?php endif; ?>
     <!-- // コードを追記 -->
 

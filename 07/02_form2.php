@@ -7,6 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $score = $_POST['score'];
     if (empty($score)) {
         $err_msg = '点数が入力されていません。';
+    } elseif ($score >= 60) {
+        $judge = '合格です';
+    } elseif ($score < 60) {
+        $judge = '不合格です';
     }
 }
 
@@ -31,10 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><?= $err_msg ?></li>
             <?php endif; ?>
         </ul>
-    <?php elseif ($score >= 60) : ?>
-        <h2>合格です</h2>
-    <?php elseif ($score < 60) : ?>
-        <h2>不合格です</h2>
+    <?php else : ?>
+        <h2><?= $judge ?></h2>
     <?php endif; ?>
     <!-- //ここにコードを追記 -->
 
@@ -45,6 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
-<!-- 
-点数が60以上の場合、 合格 と出力
-点数が60未満の場合、 不合格 と出力 -->

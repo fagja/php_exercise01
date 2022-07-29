@@ -1,10 +1,9 @@
 <?php
 
-$name = '';
-$tel = '';
-$email = '';
-$item_key = '';
-$err_msgs = [];
+$answer1 = '';
+$answer2 = '';
+$answer3 = '';
+$answer4 = '';
 
 $ask1 = '氏名';
 $ask2 = '電話番号';
@@ -13,34 +12,36 @@ $ask4 = '購入するもの';
 
 $base_err = 'を入力して下さい';
 
+$err_msgs = [];
+
 $items = ['バッグ', '靴', '時計', 'ネックレス', 'ピアス'];
+$judge = 0;
 
 // コードを追記
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $tel = $_POST['tel'];
-    $email = $_POST['email'];
-    $item_key = $_POST['purchase'];
-
-    if (empty($name)) {
-        $err_msgs[] = $asl1 . $base_err;
+    $answer1 = $_POST['name'];
+    $answer2 = $_POST['tel'];
+    $answer3 = $_POST['email'];
+    $answer4 = $_POST['purchase'];
+    for ($i = 1; $i <= 4; $i++) {
+        $asks    = 'ask'    . $i;
+        $answers = 'answer' . $i;
+        if (empty($$answers)) {
+            $err_msgs[] = $$asks . $base_err;
+            $judge ++;
+        } 
+    }if($judge == 0){
+            header('Location: 05_confirm.php?purchase_item=' . $answer4);
+            exit;
     }
+}
 
-    if (empty($tel)) {
-        $err_msgs[] = $ask2 . $base_err;
-    }
 
-    if (empty($email)) {
-        $err_msgs[] = $ask3 . $base_err;
-    } else {
-        $msg = '';
-        $array = [
-            $ask1  => $name,
-            $ask2  => $tel,
-            $ask3  => $email,
-            $ask4  => $item_key,
-        ];
-    }
+// エスケープ処理を行う関数
+function h($str)
+{
+    // ENT_QUOTES: シングルクオートとダブルクオートを共に変換する。
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 // コードを追記
 
@@ -53,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reserve04</title>
+    <title>05_form2</title>
 </head>
 
 <body>
@@ -76,20 +77,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- // コードを追記 -->
         <div class="input">
             <label for="name">氏名</label><br>
-            <input type="text" name="name" value=<?= $name ?>><br>
+            <input type="text" name="name" value=<?= $answer1 ?>><br>
             <label for="tel">電話番号</label><br>
-            <input type="text" name="tel" value=<?= $tel ?>><br>
+            <input type="text" name="tel" value=<?= $answer2 ?>><br>
             <label for="email">メールアドレス</label><br>
-            <input type="text" name="email" value=<?= $email ?>><br>
+            <input type="text" name="email" value=<?= $answer3 ?>><br>
         </div>
         <h3>購入するものを選択してください</h3>
         <div class="select">
             <select name="purchase" id="">
-                <option value="バッグ">バッグ</option>
-                <option value="靴">靴</option>
-                <option value="時計">時計</option>
-                <option value="ネックレス">ネックレス</option>
-                <option value="ピアス">ピアス</option>
+                <?php foreach ($items as $item) : ?>
+                    <option value=<?= $item ?>><?= $item ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <!-- // コードを追記 -->
@@ -100,14 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <!-- // コードを追記 -->
-    <?php if (isset($msg)) : ?>
-        <h3>以下の内容が送信されました。</h3>
-        <?php foreach ($array as $ask => $answer) : ?>
-            <?= $ask . ':' . $answer ?><br>
-        <?php endforeach; ?>
-    <?php endif; ?>
+
     <!-- // コードを追記 -->
 
 </body>
 
 </html>
+
+

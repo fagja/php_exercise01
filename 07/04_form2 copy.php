@@ -15,7 +15,6 @@ $base_err = 'を入力して下さい';
 $msgs = [];
 $err_msgs = [];
 
-
 $items = ['バッグ', '靴', '時計', 'ネックレス', 'ピアス'];
 
 // コードを追記
@@ -34,6 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// エスケープ処理を行う関数
+function h($str)
+{
+    // ENT_QUOTES: シングルクオートとダブルクオートを共に変換する。
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
 // コードを追記
 
 ?>
@@ -45,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>try04</title>
+    <title>04_form2</title>
 </head>
 
 <body>
@@ -77,11 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h3>購入するものを選択してください</h3>
         <div class="select">
             <select name="purchase" id="">
-                <option value="バッグ">バッグ</option>
-                <option value="靴">靴</option>
-                <option value="時計">時計</option>
-                <option value="ネックレス">ネックレス</option>
-                <option value="ピアス">ピアス</option>
+                <?php foreach ($items as $item) : ?>
+                    <option value=<?= $item ?>><?= $item ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <!-- // コードを追記 -->
@@ -95,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if (empty($err_msgs) && $msgs) : ?>
         <h3>以下の内容が送信されました。</h3>
         <?php foreach ($msgs as $msg) : ?>
-            <?= $msg ?><br>
+            <?= h($msg) ?><br>
         <?php endforeach; ?>
     <?php endif; ?>
     <!-- // コードを追記 -->
@@ -105,5 +109,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </html>
 
 
-<!-- $brank = round((strlen($info3) - strlen($info1)) / 2);
-echo $brank; -->
