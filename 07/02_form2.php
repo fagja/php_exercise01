@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- //ここにコードを追記 -->
     <?php if (empty($score)) : ?>
         <h2>点数を入力してください</h2>
-        <ul>
-            <?php if ($err_msg) : ?>
-                <li><?= $err_msg ?></li>
-            <?php endif; ?>
-        </ul>
+    <ul>
+        <?php if ($err_msg) : ?>
+            <li><?= $err_msg ?></li>
+        <?php endif; ?>
+    </ul>
     <?php else : ?>
         <h2><?= $judge ?></h2>
     <?php endif; ?>

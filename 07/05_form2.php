@@ -77,11 +77,11 @@ function h($str)
         <!-- // コードを追記 -->
         <div class="input">
             <label for="name">氏名</label><br>
-            <input type="text" name="name" value=<?= $answer1 ?>><br>
+            <input type="text" name="name" value=<?= h($answer1) ?>><br>
             <label for="tel">電話番号</label><br>
-            <input type="text" name="tel" value=<?= $answer2 ?>><br>
+            <input type="text" name="tel" value=<?= h($answer2) ?>><br>
             <label for="email">メールアドレス</label><br>
-            <input type="text" name="email" value=<?= $answer3 ?>><br>
+            <input type="text" name="email" value=<?= h($answer3) ?>><br>
         </div>
         <h3>購入するものを選択してください</h3>
         <div class="select">
